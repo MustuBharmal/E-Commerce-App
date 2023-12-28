@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app_flutter/pages/cart_page.dart';
-import 'package:shop_app_flutter/providers/cart_provider.dart';
 import 'package:shop_app_flutter/widgets/product_list.dart';
 
+import '../providers/cart_provider.dart';
 import '../providers/product_provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void didChangeDependencies() {
-    if(!dataFetched){
+    if (!dataFetched) {
       Provider.of<ProductProvider>(context, listen: false).fetchAndSetProduct();
     }
     dataFetched = true;
@@ -31,7 +31,9 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<ProductProvider>(context, listen: false).fetchAndSetProduct().then((_) {
+      Provider.of<ProductProvider>(context, listen: false)
+          .fetchAndSetProduct()
+          .then((_) {
         setState(() {
           _isLoading = false;
         });
@@ -49,26 +51,31 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('My Shop'),
         actions: <Widget>[
-          Consumer<CartProvider>(
-            builder: (_, cart, ch) => Badge(
-              label: Text(cart.itemCount.toString()),
-              child: ch!,
-            ),
-            child: IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(CartPage.routeName);
-              },
-              icon: const Icon(
-                Icons.shopping_cart,
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Consumer<CartProvider>(
+              builder: (_, cart, ch) => Badge(
+                label: Text(cart.itemCount.toString()),
+                child: ch!,
+              ),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(CartPage.routeName);
+                },
+                icon: const Icon(
+                  Icons.shopping_cart,
+                ),
               ),
             ),
           ),
         ],
       ),
-      body: _isLoading ? const Center(child: CircularProgressIndicator()) : IndexedStack(
-        index: currentPage,
-        children: pages,
-      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : IndexedStack(
+              index: currentPage,
+              children: pages,
+            ),
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 35,
         selectedFontSize: 0,

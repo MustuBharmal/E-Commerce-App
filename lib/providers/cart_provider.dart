@@ -8,7 +8,7 @@ class CartProvider with ChangeNotifier {
   double get totalAmount {
     var total = 0.0;
     _items.forEach((key, cartItem) {
-      total += cartItem.price * cartItem.quantity;
+      total += (cartItem.price! * cartItem.quantity!);
     });
 
     return total;
@@ -27,14 +27,15 @@ class CartProvider with ChangeNotifier {
   void removeSingleItem(dynamic prodId) {
     if (!_items.containsKey(prodId)) {
       return;
-    } else if (_items[prodId]!.quantity > 1) {
+    } else if (_items[prodId]!.quantity! > 1) {
       _items.update(
-        prodId,
+        prodId.toString(),
         (existingCartItem) => CartItem(
           id: existingCartItem.id,
           title: existingCartItem.title,
-          quantity: existingCartItem.quantity - 1,
+          quantity: existingCartItem.quantity! - 1,
           price: existingCartItem.price,
+          productId: prodId.toString(),
         ),
       );
     } else {
@@ -43,15 +44,16 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addItem(dynamic prodId, String title, dynamic price) {
+  void addItem(dynamic prodId, String title, dynamic price, double quantity) {
     if (_items.containsKey(prodId.toString())) {
       _items.update(
         prodId.toString(),
         (existenceCartItem) => CartItem(
           id: existenceCartItem.id,
           title: existenceCartItem.title,
-          quantity: existenceCartItem.quantity + 1,
+          quantity: existenceCartItem.quantity! + 1,
           price: existenceCartItem.price,
+          productId: prodId.toString(),
         ),
       );
     } else {
@@ -61,7 +63,8 @@ class CartProvider with ChangeNotifier {
           id: DateTime.now().toString(),
           title: title,
           price: price,
-          quantity: 1,
+          quantity: quantity,
+          productId: prodId.toString(),
         ),
       );
     }

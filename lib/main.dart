@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app_flutter/pages/cart_page.dart';
-import 'package:shop_app_flutter/pages/product_details_page.dart';
 import 'package:shop_app_flutter/providers/cart_provider.dart';
 import 'package:shop_app_flutter/pages/home_page.dart';
 import 'package:shop_app_flutter/providers/product_provider.dart';
@@ -21,17 +20,19 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ProductProvider()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Shopping App',
         theme: ThemeData(
           fontFamily: 'Lato',
           colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromRGBO(254, 206, 1, 1),
-            primary: const Color.fromRGBO(254, 206, 1, 1),
+            primary: const Color.fromRGBO(0, 98, 255, 1.0),
           ),
           appBarTheme: const AppBarTheme(
             titleTextStyle: TextStyle(
-              fontSize: 20,
+              fontSize: 24,
               color: Colors.black,
+              fontWeight: FontWeight.w600
             ),
           ),
           inputDecorationTheme: const InputDecorationTheme(
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
             ),
             titleMedium: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 20,
+              fontSize: 24,
             ),
             bodySmall: TextStyle(
               fontWeight: FontWeight.bold,

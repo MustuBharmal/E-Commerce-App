@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app_flutter/providers/cart_provider.dart';
 import 'package:shop_app_flutter/widgets/cart_item.dart' as ci;
+
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
   static const routeName = '/cart';
@@ -22,15 +23,17 @@ class CartPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  const Text(
+                  Text(
                     'Total',
-                    style: TextStyle(fontSize: 20),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const Spacer(),
                   Chip(
                     label: Text('\$${cart.totalAmount.toStringAsFixed(2)}',
                         style: const TextStyle(
                           color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
                         )),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
@@ -46,10 +49,10 @@ class CartPage extends StatelessWidget {
             child: ListView.builder(
               itemBuilder: (ctx, i) => ci.CartItem(
                 cart.items.values.toList()[i].id,
-                cart.items.keys.toList()[i],
-                cart.items.values.toList()[i].price,
-                cart.items.values.toList()[i].quantity,
-                cart.items.values.toList()[i].title,
+                cart.items.values.toList()[i].productId,
+                cart.items.values.toList()[i].price!,
+                cart.items.values.toList()[i].quantity!,
+                cart.items.values.toList()[i].title!,
               ),
               itemCount: cart.itemCount,
             ),
